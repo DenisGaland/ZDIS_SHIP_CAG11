@@ -1,0 +1,26 @@
+<mvc:View controllerName="Press_Shop_Fiori4.controller.Master" xmlns="sap.ui.table" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified"
+	xmlns:c="sap.ui.core" xmlns:m="sap.m" xmlns:core="sap.ui.core" html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form" xmlns:ui="sap.ui.commons" xmlns:tnt="sap.tnt">
+	<m:Page showHeader="false" enableScrolling="false" class="sapUiContentPadding">
+		<m:content>
+			<!-- Begin Header -->
+			<m:HBox width="100%" id="H_PLANT" alignContent="Start" alignItems="Center">
+				<m:items>
+					<sap.ui.core:Icon src="sap-icon://home" size="2em" xmlns:sap.ui.core="sap.ui.core" id="__icon0"/>
+					<m:Label text="Label" width="100%" id="__PLANT" design="Bold"/>
+					<m:HBox width="10%" id="Space6" alignContent="Start" alignItems="Center"></m:HBox>
+				</m:items>
+			</m:HBox>
+			<!-- End Header -->
+			<!-- Begin scan input  -->
+			<m:HBox width="100%" id="H_CAGE" alignContent="Start" alignItems="Center" visible="true">
+				<m:items>
+					<m:Label text="{i18n>cagescan}" width="100%" id="__label_cage" design="Bold" textAlign="Center"/>
+					<m:SearchField width="100%" id="CAGE" placeholder="" search="CheckCage"/>
+				</m:items>
+			</m:HBox>
+			<!-- End scan input -->
+			<!-- Begin Table -->
+		</m:content>
+	</m:Page>
+</mvc:View>
