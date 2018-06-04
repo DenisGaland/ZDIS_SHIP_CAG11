@@ -13,7 +13,10 @@ sap.ui.define([
 		//Init flux
 		onInit: function() {
 			var oView = this.getView();
-			var osite = oView.byId("__PLANT");
+			jQuery.sap.delayedCall(500, this, function() {
+				oView.byId("CAGE").focus();
+			});
+			/*var osite = oView.byId("__PLANT");
 			//Function module ZFIORI_GET_PLANT_OF_USER
 			var URL = "/sap/opu/odata/sap/ZGET_PLANT_SRV/S_T001WSet(Type='')";
 			debugger;
@@ -25,18 +28,21 @@ sap.ui.define([
 				jQuery.sap.delayedCall(500, this, function() {
 					oView.byId("CAGE").focus();
 				});
-			}, function() {
+			}, function(error) {
 				BusyIndicator.hide();
-			});
+				MessageBox.error(JSON.parse(error.response.body).error.message.value, {
+					title: "Error"
+				});
+			}); */
 		},
 
 		// Scan Cage              
 		CheckCage: function() {
 			var oView = this.getView();
 			var oController = oView.getController();
-			var cage = oView.byId("CAGE").getValue();
+			//var cage = oView.byId("CAGE").getValue();
 			// Function module Z_CHECK_SCAN_VALUE
-			var URL = "/sap/opu/odata/sap/ZCHECK_VALUE_SCAN_SRV/MessageSet(PValue='05" + cage + "')";
+			var URL = "/sap/opu/odata/sap/ZCHECK_VALUE_SCAN_SRV/MessageSet(PValue='05" + oView.byId("CAGE").getValue() + "')";
 			debugger;
 			BusyIndicator.show();
 			OData.read(URL, function(response) {
@@ -50,8 +56,12 @@ sap.ui.define([
 				} else {
 					oController.ShipCage();
 				}
-			}, function() {
+			}, function(error) {
 				BusyIndicator.hide();
+				oView.byId("CAGE").setValue("");
+				MessageBox.error(JSON.parse(error.response.body).error.message.value, {
+					title: "Error"
+				});
 			});
 		},
 
@@ -59,23 +69,26 @@ sap.ui.define([
 			var oView = this.getView();
 			var cage = oView.byId("CAGE").getValue();
 			//Function mdoule Z_GET_BOX_CONTENT
-			var URL = "/sap/opu/odata/sap/ZRETURN_DC_SRV/ItemsSet(ZembArt='E" + cage + "')";
+			var URL = "/sap/opu/odata/sap/ZRETURN_DC_SRV/ItemsSet(ZembArt='E" + oView.byId("CAGE").getValue() + "')";
 			debugger;
 			BusyIndicator.show();
 			OData.read(URL, function(response) {
 				BusyIndicator.hide();
+				oView.byId("CAGE").setValue("");
 				if (response.E_MESSAGE !== "" && response.E_ZTYPE === "E") {
 					var path = $.sap.getModulePath("Press_Shop_Fiori4", "/audio");
 					var aud = new Audio(path + "/MOREINFO.png");
 					aud.play();
-					oView.byId("CAGE").setValue("");
 					MessageBox.show(response.E_MESSAGE, MessageBox.Icon.ERROR);
 				} else {
-					oView.byId("CAGE").setValue("");
 					MessageBox.show(response.E_MESSAGE, MessageBox.Icon.INFORMATION);
 				}
-			}, function() {
+			}, function(error) {
 				BusyIndicator.hide();
+				oView.byId("CAGE").setValue("");
+				MessageBox.error(JSON.parse(error.response.body).error.message.value, {
+					title: "Error"
+				});
 			});
 		}
 	});
